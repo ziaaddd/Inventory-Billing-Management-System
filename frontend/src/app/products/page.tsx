@@ -55,12 +55,12 @@ export default function ProductsPage() {
               <h1 className="text-3xl font-bold">Products</h1>
               <p className="text-muted-foreground">Manage your product inventory</p>
             </div>
-            <Link href="/products/new">
-              <Button>
+            <Button asChild>
+              <Link href="/products/new">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Product
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
 
           <Card>
@@ -127,11 +127,11 @@ export default function ProductsPage() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <Link href={`/products/${product._id}/edit`}>
-                              <Button variant="outline" size="sm">
+                            <Button asChild variant="outline" size="sm" aria-label={`Edit ${product.name}`}>
+                              <Link href={`/products/${product._id}/edit`}>
                                 <Edit className="h-4 w-4" />
-                              </Button>
-                            </Link>
+                              </Link>
+                            </Button>
                             <Button
                               variant="outline"
                               size="sm"

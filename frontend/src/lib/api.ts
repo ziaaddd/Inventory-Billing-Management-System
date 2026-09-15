@@ -11,7 +11,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: true, 
+      withCredentials: true,
     });
 
     this.setupInterceptors();
@@ -49,7 +49,7 @@ class ApiClient {
       }
     );
   }
-
+  //  control token 
   private getToken(): string | null {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('token');

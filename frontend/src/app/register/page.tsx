@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { FadeIn, SlideIn, FormFieldAnimation, LoadingSpinner } from '@/components/animations';
-import { Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -203,7 +203,9 @@ export default function RegisterPage() {
               </form>
 
               <FadeIn delay={1.1}>
-                <div className="mt-4 text-center text-sm">
+                <div className="mt-4 text-center text-sm flex items-center justify-center gap-2">
+                  <Link href='/'>  <ArrowLeft className='mr-1 h-4 w-4 ' />
+                  </Link>
                   Already have an account?{' '}
                   <Link
                     href="/login"

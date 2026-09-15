@@ -411,4 +411,3 @@ npm run build
 
 The Next.js 15 frontend provides a modern, responsive, and feature-rich interface for the Inventory & Billing Management System. With shadcn/ui components, TypeScript safety, and seamless API integration, it delivers an excellent user experience for small business management.
 
-**🚀 Ready for production deployment!**

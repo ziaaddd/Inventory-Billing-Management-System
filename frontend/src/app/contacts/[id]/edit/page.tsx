@@ -21,7 +21,7 @@ export default function EditContactPage() {
   const router = useRouter();
   const params = useParams();
   const contactId = params?.id as string;
-  
+
   const [loading, setLoading] = useState(false);
   const [loadingContact, setLoadingContact] = useState(true);
   const [error, setError] = useState('');
@@ -114,7 +114,11 @@ export default function EditContactPage() {
     setLoading(true);
 
     try {
-      const response = await apiClient.updateContact(contactId, formData);
+      const submitData = {
+        ...formData,
+        email: formData.email?.trim() ? formData.email.trim() : undefined,
+      };
+      const response = await apiClient.updateContact(contactId, submitData);
       if (response.success) {
         setSuccess('Contact updated successfully!');
         setTimeout(() => {
@@ -151,9 +155,11 @@ export default function EditContactPage() {
         <Layout>
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <Button variant="outline" onClick={() => router.push('/contacts')}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Contacts
+              <Button asChild variant="outline">
+                <Link href="/contacts">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to Contacts
+                </Link>
               </Button>
             </div>
             <Alert variant="destructive">
@@ -171,13 +177,11 @@ export default function EditContactPage() {
         <div className="space-y-6">
           <FadeIn delay={0.1}>
             <div className="flex items-center space-x-2">
-              <Link href="/contacts">
-                <ScaleOnHover>
-                  <Button variant="outline" size="sm">
-                    <ArrowLeft className="h-4 w-4" />
-                  </Button>
-                </ScaleOnHover>
-              </Link>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/contacts">
+                  <ArrowLeft className="h-4 w-4" />
+                </Link>
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold">Edit Contact</h1>
                 <p className="text-muted-foreground">Update contact information</p>
@@ -295,7 +299,7 @@ export default function EditContactPage() {
                         <MapPin className="h-4 w-4" />
                         <Label className="text-base font-semibold">Address</Label>
                       </div>
-                      
+
                       <div className="grid gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                           <Label htmlFor="address.street">Street Address</Label>
@@ -410,20 +414,20 @@ export default function EditContactPage() {
                   <FormFieldAnimation delay={0.9}>
                     <div className="flex gap-4 pt-4">
                       <ScaleOnHover>
-                        <Button 
-                          type="submit" 
-                          className="flex-1 transition-all duration-300" 
+                        <Button
+                          type="submit"
+                          className="flex-1 transition-all duration-300"
                           disabled={loading}
                         >
                           <Save className="mr-2 h-4 w-4" />
                           {loading ? 'Updating Contact...' : 'Update Contact'}
                         </Button>
                       </ScaleOnHover>
-                      
+
                       <ScaleOnHover>
-                        <Button 
-                          type="button" 
-                          variant="outline" 
+                        <Button
+                          type="button"
+                          variant="outline"
                           onClick={() => router.push('/contacts')}
                           className="transition-all duration-300"
                         >

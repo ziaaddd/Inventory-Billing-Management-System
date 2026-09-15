@@ -120,26 +120,9 @@ npm run dev
 ### 4. Access the Application
 
 - **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:5000`
+- **Backend API**: `http://localhost:5001`
 - **API Documentation**: Import the Postman collection from `backend/Inventory_Billing_API.postman_collection.json`
 
-## 🐳 Docker Deployment
-
-For production deployment using Docker:
-
-```bash
-# Navigate to backend directory
-cd backend
-
-# Build and start containers
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop containers
-docker-compose down
-```
 
 ## 📁 Project Structure
 
@@ -203,7 +186,7 @@ FRONTEND_URL=http://localhost:3000
 
 ```env
 # API Configuration
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_API_URL=http://localhost:5001/api
 
 # Application Settings
 NEXT_PUBLIC_APP_NAME=Inventory & Billing System
@@ -279,112 +262,11 @@ npm test
 npm run test:e2e
 ```
 
-## 🤝 Contributing
-
-We welcome contributions from the community! Our project is designed to be beginner-friendly while offering opportunities for experienced developers.
-
-**Start here**: [Contributing Guidelines](CONTRIBUTING.md) | [Roadmap](ROADMAP.md) | [Labels Guide](.github/LABELS.md)
-
-### Finding Tasks to Work On
-
-**New to the project?**
-
-- Look for issues labeled `good-first-issue` - Perfect starter tasks
-- Check `help-wanted` - Areas where we specifically need community help
-
-**Want to work on the roadmap?**
-
-- Filter by version: `v1.1.0`, `v1.2.0`, etc.
-- Filter by area: `area: backend`, `area: frontend`, `area: database`, etc.
-- Check by difficulty: `intermediate`, `advanced`
-
-### How to Contribute
-
-1. **Fork the repository**
-2. **Create your feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit your changes** following our [commit guidelines](CONTRIBUTING.md)
-4. **Add tests** for new features
-5. **Push to the branch** (`git push origin feature/AmazingFeature`)
-6. **Open a Pull Request** with a clear description
-
-### Development Guidelines
-
-- Follow the existing code style and conventions
-- Write clear, descriptive commit messages
-- Add tests for new features (use `pnpm test`)
-- Update documentation as needed
-- Ensure all tests pass before submitting PR
-- Use `pnpm` for package management (not npm)
-
-### Getting Help During Development
-
-- Need clarification? Start a [GitHub Discussion](https://github.com/x0lg0n/Inventory-Billing-Management-System/discussions)
-- Found a blocker? Comment on the issue with details
-- Questions about approach? Discuss in the issue before writing code
-
-### Recognition
-
-All contributors are recognized in [AUTHORS.md](AUTHORS.md) and the GitHub Contributors Graph. Your contributions help make this project better for everyone!
-
-## 🐛 Bug Reports & Feature Requests
-
-Found a bug or have a feature request? Please check the [existing issues](https://github.com/x0lg0n/Inventory-Billing-Management-System/issues) first, then feel free to [open a new issue](https://github.com/x0lg0n/Inventory-Billing-Management-System/issues/new).
-
-### Issue Templates
-
-We provide templates for:
-
-- 🐛 Bug Reports
-- ✨ Feature Requests
-- 📚 Documentation Improvements
-- 💬 Questions
-
-## 📈 Roadmap
-
-We maintain a detailed roadmap that outlines the future direction of the project and identifies opportunities for community contributions.
-
-**View the full roadmap**: [ROADMAP.md](ROADMAP.md)
-
-Key upcoming versions:
-
-- **v1.1.0** (Q2 2026) - Enhanced testing, improved error handling, and API documentation
-- **v1.2.0** (Q3 2026) - Performance optimization and advanced reporting
-- **v2.0.0** (Q4 2026) - Multi-user support, permissions, and enterprise features
-- **v2.1.0** (Q1 2027) - Mobile app and offline support
-- **v3.0.0** (Future) - SaaS-ready features and advanced enterprise capabilities
-
-Each version includes specific feature requests marked as **🤝 Help Wanted** - perfect opportunities for contributors!
-
-## 👥 Team
-
-The project is maintained by a dedicated team of volunteers. For the full list of maintainers and how to get involved, see [MAINTAINERS.md](MAINTAINERS.md).
-
-**Project Lead**: [Siddhartha Kunwar](https://github.com/x0lg0n)
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📚 Documentation
 
-Learn more about the project through our comprehensive documentation:
-
-### Community & Contributing
-
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Guidelines for contributing to the project
-- [ROADMAP.md](ROADMAP.md) - Project roadmap with version planning and contribution opportunities
-- [MAINTAINERS.md](MAINTAINERS.md) - Active maintainers and how to become one
-- [AUTHORS.md](AUTHORS.md) - Project creators and contributors
-- [.github/LABELS.md](.github/LABELS.md) - GitHub label system and how to use them
-
-### Project Information
-
-- [README.md](README.md) - Main project documentation
-- [CHANGELOG.md](CHANGELOG.md) - Version history and changes
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Community standards and expectations
-- [GOVERNANCE.md](GOVERNANCE.md) - Project governance model
-- [SECURITY.md](SECURITY.md) - Security policies and vulnerability reporting
-- [SUPPORT.md](SUPPORT.md) - How to get help and support
 
 ### Deployment & Setup
 
@@ -393,23 +275,6 @@ Learn more about the project through our comprehensive documentation:
 - [DEPLOYMENT.md](backend/DEPLOYMENT.md) - Deployment instructions
 - [QUICK_START.md](backend/QUICK_START.md) - Quick start guide
 
-## 🙏 Acknowledgments
 
-- Thanks to all contributors who have helped shape this project
-- Special thanks to the open-source community for the amazing tools and libraries
-- Inspired by modern inventory management best practices
 
-## 💬 Support
 
-For support, please:
-
-1. Check our [Support Documentation](SUPPORT.md)
-2. Search [existing issues](https://github.com/x0lg0n/Inventory-Billing-Management-System/issues)
-3. Start a [GitHub Discussion](https://github.com/x0lg0n/Inventory-Billing-Management-System/discussions)
-4. Review the [Contributing Guidelines](CONTRIBUTING.md) if you want to contribute
-
----
-
-<p align="center">
-  Made with ❤️ by the community
-</p>

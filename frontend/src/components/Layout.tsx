@@ -46,7 +46,9 @@ export function Layout({ children }: LayoutProps) {
       <header className="border-b">
         <div className="flex h-16 items-center px-4">
           <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-bold">Inventory & Billing</h1>
+            <Link href="/" className="flex items-center space-x-2">
+              <h1 className="text-xl font-bold">Inventory & Billing </h1>
+            </Link>
           </div>
 
           <div className="ml-auto flex items-center space-x-4">

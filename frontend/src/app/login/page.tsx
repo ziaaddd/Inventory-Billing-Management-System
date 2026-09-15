@@ -7,6 +7,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ArrowLeft } from 'lucide-react';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { FadeIn, SlideIn, FormFieldAnimation, AnimatedButton, LoadingSpinner } from '@/components/animations';
@@ -82,7 +84,7 @@ export default function LoginPage() {
                     </Alert>
                   </SlideIn>
                 )}
-                
+
                 <FormFieldAnimation delay={0.6}>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
@@ -97,7 +99,7 @@ export default function LoginPage() {
                     />
                   </div>
                 </FormFieldAnimation>
-                
+
                 <FormFieldAnimation delay={0.7}>
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
@@ -111,11 +113,11 @@ export default function LoginPage() {
                     />
                   </div>
                 </FormFieldAnimation>
-                
+
                 <FormFieldAnimation delay={0.8}>
-                  <Button 
-                    type="submit" 
-                    className="w-full transition-all duration-300 hover:scale-105" 
+                  <Button
+                    type="submit"
+                    className="w-full transition-all duration-300 hover:scale-105"
                     disabled={loading}
                   >
                     {loading ? (
@@ -129,9 +131,11 @@ export default function LoginPage() {
                   </Button>
                 </FormFieldAnimation>
               </form>
-              
+
               <FadeIn delay={0.9}>
-                <div className="mt-4 text-center text-sm">
+                <div className="mt-4 text-center text-sm flex items-center justify-center gap-2">
+                  <Link href='/'>  <ArrowLeft className='mr-1 h-4 w-4 ' />
+                  </Link>
                   Don&apos;t have an account?{' '}
                   <Link href="/register" className="text-primary hover:underline transition-colors duration-300 hover:scale-105 inline-block">
                     Sign up

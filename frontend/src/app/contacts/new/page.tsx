@@ -94,13 +94,11 @@ export default function AddContactPage() {
         <div className="space-y-6">
           <FadeIn delay={0.1}>
             <div className="flex items-center space-x-2">
-              <Link href="/contacts">
-                <ScaleOnHover>
-                  <Button variant="outline" size="sm">
-                    <ArrowLeft className="h-4 w-4" />
-                  </Button>
-                </ScaleOnHover>
-              </Link>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/contacts">
+                  <ArrowLeft className="h-4 w-4" />
+                </Link>
+              </Button>
               <div>
                 <h1 className="text-3xl font-bold">Add New Contact</h1>
                 <p className="text-muted-foreground">Create a new customer or vendor</p>
@@ -218,7 +216,7 @@ export default function AddContactPage() {
                         <MapPin className="h-4 w-4" />
                         <Label className="text-base font-semibold">Address</Label>
                       </div>
-                      
+
                       <div className="grid gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                           <Label htmlFor="address.street">Street Address</Label>
@@ -333,20 +331,20 @@ export default function AddContactPage() {
                   <FormFieldAnimation delay={0.9}>
                     <div className="flex gap-4 pt-4">
                       <ScaleOnHover>
-                        <Button 
-                          type="submit" 
-                          className="flex-1 transition-all duration-300" 
+                        <Button
+                          type="submit"
+                          className="flex-1 transition-all duration-300"
                           disabled={loading}
                         >
                           <Plus className="mr-2 h-4 w-4" />
                           {loading ? 'Creating Contact...' : 'Create Contact'}
                         </Button>
                       </ScaleOnHover>
-                      
+
                       <ScaleOnHover>
-                        <Button 
-                          type="button" 
-                          variant="outline" 
+                        <Button
+                          type="button"
+                          variant="outline"
                           onClick={() => router.push('/contacts')}
                           className="transition-all duration-300"
                         >

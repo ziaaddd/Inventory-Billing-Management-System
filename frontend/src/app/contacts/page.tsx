@@ -34,7 +34,7 @@ export default function ContactsPage() {
       } else {
         response = await apiClient.getContacts({ search });
       }
-      
+
       if (response.success) {
         setContacts(response.data.contacts || response.data.customers || response.data.vendors);
       }
@@ -100,23 +100,22 @@ export default function ContactsPage() {
               </div>
             </TableCell>
             <TableCell>
-              <div className={`font-medium ${
-                contact.currentBalance > 0 ? 'text-green-500' : 
-                contact.currentBalance < 0 ? 'text-red-500' : ''
-              }`}>
-                ${contact.currentBalance.toFixed(2)}
+              <div className={`font-medium ${(contact.currentBalance ?? 0) > 0 ? 'text-green-500' :
+                (contact.currentBalance ?? 0) < 0 ? 'text-red-500' : ''
+                }`}>
+                ${(contact.currentBalance ?? 0).toFixed(2)}
               </div>
               <div className="text-sm text-muted-foreground">
-                Limit: ${contact.creditLimit.toFixed(2)}
+                Limit: ${(contact.creditLimit ?? 0).toFixed(2)}
               </div>
             </TableCell>
             <TableCell>
               <div className="flex items-center space-x-2">
-                <Link href={`/contacts/${contact._id}/edit`}>
-                  <Button variant="outline" size="sm" aria-label={`Edit ${contact.name}`}>
+                <Button asChild variant="outline" size="sm" aria-label={`Edit ${contact.name}`}>
+                  <Link href={`/contacts/${contact._id}/edit`}>
                     <Edit className="h-4 w-4" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
                 <Button
                   variant="outline"
                   size="sm"
@@ -149,12 +148,12 @@ export default function ContactsPage() {
               <h1 className="text-3xl font-bold">Contacts</h1>
               <p className="text-muted-foreground">Manage your customers and vendors</p>
             </div>
-            <Link href="/contacts/new">
-              <Button>
+            <Button asChild>
+              <Link href="/contacts/new">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Contact
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
 
           <Card>

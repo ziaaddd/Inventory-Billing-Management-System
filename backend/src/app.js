@@ -82,8 +82,8 @@ const authLimiter = rateLimit({
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = process.env.NODE_ENV === 'production' 
-      ? ['https://inventory-billing-management-system.vercel.app'] 
-      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004'];
+      ? [process.env.FRONTEND_URL, 'https://inventory-billing-management-system.vercel.app'].filter(Boolean)
+      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', process.env.FRONTEND_URL].filter(Boolean);
     
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);

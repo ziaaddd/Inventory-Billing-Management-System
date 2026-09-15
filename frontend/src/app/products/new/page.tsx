@@ -33,8 +33,8 @@ export default function NewProductPage() {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'price' || name === 'stock' || name === 'minStockLevel' 
-        ? parseFloat(value) || 0 
+      [name]: name === 'price' || name === 'stock' || name === 'minStockLevel'
+        ? parseFloat(value) || 0
         : value
     }));
   };
@@ -63,11 +63,11 @@ export default function NewProductPage() {
       <Layout>
         <div className="space-y-6">
           <div className="flex items-center space-x-2">
-            <Link href="/products">
-              <Button variant="outline" size="sm">
+            <Button asChild variant="outline" size="sm">
+              <Link href="/products">
                 <ArrowLeft className="h-4 w-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
             <div>
               <h1 className="text-3xl font-bold">Add New Product</h1>
               <p className="text-muted-foreground">Create a new product in your inventory</p>
@@ -178,11 +178,11 @@ export default function NewProductPage() {
                   <Button type="submit" disabled={loading}>
                     {loading ? 'Creating...' : 'Create Product'}
                   </Button>
-                  <Link href="/products">
-                    <Button type="button" variant="outline">
+                  <Button asChild type="button" variant="outline">
+                    <Link href="/products">
                       Cancel
-                    </Button>
-                  </Link>
+                    </Link>
+                  </Button>
                 </div>
               </form>
             </CardContent>
