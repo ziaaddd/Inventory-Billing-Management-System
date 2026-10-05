@@ -8,11 +8,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  ArrowLeft, 
-  Receipt, 
-  User, 
-  Calendar, 
+import {
+  ArrowLeft,
+  Receipt,
+  User,
+  Calendar,
   CreditCard,
   Package,
   FileText
@@ -55,18 +55,19 @@ interface Transaction {
   notes?: string;
 }
 
-export default function TransactionDetailPage({ params }: { params: { id: string } }) {
+export default async function TransactionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const id = (await params).id;
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
         setLoading(true);
-        const response = await api.getTransaction(params.id);
-        
+        const response = await api.getTransaction(id);
+
         if (response.success) {
           setTransaction(response.data.transaction);
         } else {
@@ -80,10 +81,10 @@ export default function TransactionDetailPage({ params }: { params: { id: string
       }
     };
 
-    if (params.id) {
+    if (id) {
       fetchTransaction();
     }
-  }, [params.id]);
+  }, [id]);
 
   const getTypeColor = (type: string) => {
     return type === 'sale' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
@@ -203,9 +204,8 @@ export default function TransactionDetailPage({ params }: { params: { id: string
               <div className="space-y-4">
                 <div className="text-right">
                   <p className="text-sm text-muted-foreground">Total Amount</p>
-                  <p className={`text-3xl font-bold ${
-                    transaction.type === 'sale' ? 'text-green-600' : 'text-red-600'
-                  }`}>
+                  <p className={`text-3xl font-bold ${transaction.type === 'sale' ? 'text-green-600' : 'text-red-600'
+                    }`}>
                     ${transaction.totalAmount.toLocaleString()}
                   </p>
                 </div>
@@ -291,9 +291,8 @@ export default function TransactionDetailPage({ params }: { params: { id: string
               <div className="flex justify-end">
                 <div className="text-right">
                   <p className="text-sm text-muted-foreground">Total Amount</p>
-                  <p className={`text-xl font-bold ${
-                    transaction.type === 'sale' ? 'text-green-600' : 'text-red-600'
-                  }`}>
+                  <p className={`text-xl font-bold ${transaction.type === 'sale' ? 'text-green-600' : 'text-red-600'
+                    }`}>
                     ${transaction.totalAmount.toLocaleString()}
                   </p>
                 </div>
