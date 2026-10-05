@@ -81,14 +81,17 @@ const authLimiter = rateLimit({
 // CORS configuration with debugging
 const corsOptions = {
   origin: function (origin, callback) {
+    const cleanFrontendUrl = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : null;
     const allowedOrigins = process.env.NODE_ENV === 'production' 
-      ? [process.env.FRONTEND_URL, 'https://inventory-billing-management-system.vercel.app'].filter(Boolean)
-      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', process.env.FRONTEND_URL].filter(Boolean);
+      ? [cleanFrontendUrl, 'https://inventory-billing-management-system.vercel.app'].filter(Boolean)
+      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', cleanFrontendUrl].filter(Boolean);
     
-    // Allow requests with no origin (like mobile apps or curl requests)
+    // Allow requests with no origin (like mobile apps, postman, or server-to-server)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    const cleanOrigin = origin.replace(/\/$/, '');
+    
+    if (allowedOrigins.includes(cleanOrigin) || cleanOrigin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
       console.log(`CORS blocked origin: ${origin}`);
@@ -302,14 +305,16 @@ process.on('uncaughtException', (err) => {
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(`
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`
 🚀 Server running in ${process.env.NODE_ENV || 'development'} mode
 📡 Port: ${PORT}
 🌐 URL: http://localhost:${PORT}
 📚 API Docs: http://localhost:${PORT}/api/docs
 💚 Health: http://localhost:${PORT}/health
-  `);
-});
+    `);
+  });
+}
 
 module.exports = app;
