@@ -23,14 +23,16 @@ const { authenticate } = require('./middleware/auth');
 
 const app = express();
 
-// Connect to database
-connectDB();
+// Connect to database (initial attempt; request middleware guarantees connection)
+connectDB().catch((err) => {
+  console.error('Initial DB connection attempt failed:', err.message);
+});
 
-// Trust proxy (important for rate limiting and getting real IP addresses)
+// Trust proxy (important for rate limiting and getting real IP addresses on Vercel)
 app.set('trust proxy', 1);
 
 // Session configuration for Passport
-app.use(session({
+const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'your_session_secret_key',
   resave: false,
   saveUninitialized: false,
@@ -38,12 +40,18 @@ app.use(session({
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  },
-  store: MongoStore.create({
+  }
+};
+
+if (process.env.MONGODB_URI) {
+  sessionConfig.store = MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
-    collectionName: 'sessions'
-  })
-}));
+    collectionName: 'sessions',
+    ttl: 24 * 60 * 60
+  });
+}
+
+app.use(session(sessionConfig));
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -78,24 +86,28 @@ const authLimiter = rateLimit({
   }
 });
 
-// CORS configuration with debugging
+// CORS configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    const cleanFrontendUrl = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : null;
-    const allowedOrigins = process.env.NODE_ENV === 'production' 
-      ? [cleanFrontendUrl, 'https://inventory-billing-management-system.vercel.app'].filter(Boolean)
-      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', cleanFrontendUrl].filter(Boolean);
-    
-    // Allow requests with no origin (like mobile apps, postman, or server-to-server)
+    // Allow requests with no origin (like mobile apps, curl, or server-to-server)
     if (!origin) return callback(null, true);
-    
+
+    const configuredOrigins = process.env.FRONTEND_URL
+      ? process.env.FRONTEND_URL.split(',').map(url => url.trim().replace(/\/$/, '')).filter(Boolean)
+      : [];
+
+    const allowedOrigins = process.env.NODE_ENV === 'production'
+      ? [...configuredOrigins, 'https://inventory-billing-management-system.vercel.app']
+      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:3004', ...configuredOrigins];
+
     const cleanOrigin = origin.replace(/\/$/, '');
-    
+
+    // Allow configured origins, localhost in non-prod, or any Vercel preview/deployment domain
     if (allowedOrigins.includes(cleanOrigin) || cleanOrigin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
-      console.log(`CORS blocked origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`CORS blocked request from origin: ${origin}`);
+      callback(null, false);
     }
   },
   credentials: true,
@@ -117,15 +129,33 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
 }
 
-// Health check endpoint
+// Health check endpoint (accessible without DB dependency)
 app.get('/health', (req, res) => {
+  const mongoose = require('mongoose');
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
   res.status(200).json({
     success: true,
     message: 'Server is running',
+    database: dbStatus,
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
     version: '1.0.0'
   });
+});
+
+// Serverless DB connection middleware: guarantees MongoDB is connected before handling /api routes
+app.use('/api', async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (dbError) {
+    console.error('Database connection error on API request:', dbError.message);
+    res.status(503).json({
+      success: false,
+      message: 'Database connection failed. Please ensure MONGODB_URI is correct and MongoDB Atlas Network Access allows 0.0.0.0/0.',
+      error: process.env.NODE_ENV === 'development' ? dbError.message : undefined
+    });
+  }
 });
 
 // API routes

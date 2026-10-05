@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['localhost'],
-  },
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
-  },
-  outputFileTracingRoot: __dirname,
-}
+  // NEXT_PUBLIC_* environment variables are automatically exposed to the browser by Next.js
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

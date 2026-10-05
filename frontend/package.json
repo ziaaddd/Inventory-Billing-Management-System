@@ -5,9 +5,9 @@
   "private": false,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build ",
-    "start": "next start --turbopack",
-    "lint": "next lint --turbopack"
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.0",

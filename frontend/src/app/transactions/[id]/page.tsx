@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,13 +55,13 @@ interface Transaction {
   notes?: string;
 }
 
-export default async function TransactionDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function TransactionDetailPage() {
   const router = useRouter();
+  const params = useParams();
+  const id = params?.id as string;
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  const id = (await params).id;
   useEffect(() => {
     const fetchTransaction = async () => {
       try {

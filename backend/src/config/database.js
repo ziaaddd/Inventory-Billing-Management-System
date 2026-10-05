@@ -1,39 +1,45 @@
 const mongoose = require('mongoose');
 
+// Global cache for serverless environments (Vercel)
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
-  if (mongoose.connection.readyState >= 1) {
-    return;
+  if (cached.conn && mongoose.connection.readyState === 1) {
+    return cached.conn;
   }
+
+  if (!process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is not defined in environment variables');
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: true,
+      serverSelectionTimeoutMS: 8000, // Timeout after 8s instead of hanging
+    };
+
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts)
+      .then((mongooseInstance) => {
+        console.log(`MongoDB Connected: ${mongooseInstance.connection.host}`);
+        return mongooseInstance;
+      })
+      .catch((err) => {
+        console.error('Database connection failed:', err.message);
+        cached.promise = null; // Reset promise so subsequent requests can retry
+        throw err;
+      });
+  }
+
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      // Remove deprecated options, use only supported ones
-    });
-
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-
-    // Handle connection events
-    mongoose.connection.on('error', (err) => {
-      console.error('MongoDB connection error:', err);
-    });
-
-    mongoose.connection.on('disconnected', () => {
-      console.log('MongoDB disconnected');
-    });
-
-    // Graceful shutdown
-    process.on('SIGINT', async () => {
-      try {
-        await mongoose.connection.close();
-        console.log('MongoDB connection closed through app termination');
-        process.exit(0);
-      } catch (err) {
-        console.error('Error during database disconnection:', err);
-        process.exit(1);
-      }
-    });
-
+    cached.conn = await cached.promise;
+    return cached.conn;
   } catch (error) {
-    console.error('Database connection failed:', error.message);
+    cached.promise = null;
+    throw error;
   }
 };
 
