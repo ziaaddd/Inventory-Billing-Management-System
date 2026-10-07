@@ -4,12 +4,20 @@
   "description": "A backend system for small businesses to manage products, customers, vendors, transactions, and basic reports with authentication.",
   "main": "src/app.js",
   "scripts": {
-    "build": "node -e \"const fs=require('fs'); if(!fs.existsSync('public')) fs.mkdirSync('public'); fs.writeFileSync('public/index.html', 'OK');\"",
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["inventory", "billing", "management", "backend", "api", "nodejs", "express", "mongodb"],
+  "keywords": [
+    "inventory",
+    "billing",
+    "management",
+    "backend",
+    "api",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
   "author": "Siddhartha Kunwar",
   "license": "MIT",
   "repository": {
